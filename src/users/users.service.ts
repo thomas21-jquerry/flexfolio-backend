@@ -57,7 +57,14 @@ export class UsersService {
     if (error) throw error;
   }
 
-  async sendEmail(userId: string): Promise<void> {
-   
+  async getAllProfiles(limit: number,page:number):Promise<UserProfile[]>{
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+    const {data, error} = await this.supabaseService.client
+      .from('profiles')
+      .select('*')
+      .range(from, to);
+    if (error) throw error;
+    return data;
   }
 } 

@@ -8,7 +8,8 @@ import {
     UseGuards,
     HttpStatus,
     HttpCode,
-    Query
+    Query,
+    Param
   } from '@nestjs/common';
   import { UsersService } from './users.service';
   import { CreateProfileDto } from './dto/create-profile-dto';
@@ -85,13 +86,10 @@ import {
     @ApiResponse({ status: 200, description: 'Profile retrieved' })
     @ApiResponse({ status: 403, description: 'Forbidden' })
     @Get('profile/:userId')
-    @ApiBearerAuth()
-    @UseGuards(AuthGuard)
     async getProfileById(
-      @CurrentUser() currentUserId: string,
-      @Body('userId') targetUserId: string
+      @Param('userId') targetUserId: string
     ): Promise<UserProfile> {
-      // TODO: Add admin role check here
+      console.log(targetUserId)
       return this.usersService.getProfile(targetUserId);
     }
   }
